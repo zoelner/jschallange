@@ -10,7 +10,7 @@ export default function movie(state = [], action) {
       });
     case Types.REMOVE:
       return produce(state, draft => {
-        const movieIndex = draft.findIndex(m => m.id === action.id);
+        const movieIndex = draft.findIndex(m => m.title === action.title);
 
         if (movieIndex >= 0) {
           draft.splice(movieIndex, 1);
