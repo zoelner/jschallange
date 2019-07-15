@@ -21,32 +21,64 @@ export const Header = styled.header`
     text-decoration: none;
   }
 
-  img {
-    width: 120px;
+  div {
+    display: flex;
+    align-items: center;
+    flex: 1;
+
+    img {
+      width: 120px;
+      border-radius: 4px;
+      margin-top: 20px;
+      margin-right: 15px;
+    }
+
+    div {
+      display: flex;
+      flex-direction: column;
+
+      h1 {
+        font-size: 24px;
+        margin-top: 10px;
+      }
+
+      p {
+        margin-top: 5px;
+        font-size: 14px;
+        color: #666;
+        line-height: 1.4;
+        text-align: center;
+        max-width: 400px;
+      }
+    }
+  }
+`;
+
+export const TableDetails = styled.div`
+  margin-top: 40px;
+
+  table {
+    border: 1px solid #eee;
     border-radius: 4px;
-    margin-top: 20px;
-  }
 
-  h1 {
-    font-size: 24px;
-    margin-top: 10px;
-  }
-
-  p {
-    margin-top: 5px;
-    font-size: 14px;
-    color: #666;
-    line-height: 1.4;
-    text-align: center;
-    max-width: 400px;
+    tr th,
+    tr td {
+      text-align: left;
+      padding: 2px 6px;
+    }
   }
 `;
 
 export const RatingList = styled.ul`
-  padding-top: 30px;
+  padding-top: 15px;
   margin-top: 30px;
   border-top: 1px solid #eee;
   list-style: none;
+
+  h1 {
+    display: block;
+    margin-bottom: 15px;
+  }
 
   li {
     display: flex;
@@ -78,14 +110,17 @@ export const RatingList = styled.ul`
           font-size: 12px;
           font-weight: 600;
           height: 20px;
-          padding: 3px 4px;
+          padding: 4px 5px;
           margin-left: 10px;
         }
       }
       p {
         margin-top: 5px;
         font-size: 12px;
-        color: #999;
+        background: #eee;
+        color: #333;
+        border-radius: 4px;
+        padding: 2px 3px;
       }
     }
   }
