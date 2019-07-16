@@ -1,85 +1,65 @@
-import React, { Component } from 'react';
+import React, { useState } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
 import { FaTrash, FaFilm, FaPlus, FaSpinner } from 'react-icons/fa';
 import { Link } from 'react-router-dom';
 import { Form, SubmitButton, List } from './styles';
 import Container from '../../components/Container';
-import api from '../../services/api';
+import { addMovieRequest } from '../../store/modules/movie/actions';
 
-class Home extends Component {
-  state = {
-    newMovie: '',
-    movies: [],
-    loading: false,
-  };
+export default function Home({ movie }) {
+  const [newMovie, setNewMovie] = useState('');
+  const movies = useSelector(state => state.movie.data);
+  const loading = useSelector(state => state.movie.loading);
 
-  handleInputChange = e => {
-    this.setState({
-      newMovie: e.target.value,
-    });
-  };
+  const dispatch = useDispatch();
 
-  handleSubmit = async e => {
-    e.preventDefault();
-    this.setState({
-      loading: true,
-    });
-    const { newMovie } = this.state;
-
-    const response = await api.get(`?apikey=eebcf44c&t=${newMovie}`);
-
-    const data = {
-      title: response.data.Title,
-    };
-
-    this.setState(prevState => ({
-      movies: [...prevState.movies, data],
-      newMovie: '',
-      loading: false,
-    }));
-  };
-
-  render() {
-    const { newMovie, movies, loading } = this.state;
-    return (
-      <Container>
-        <h1>
-          <FaFilm />
-          Filmes
-        </h1>
-
-        <Form onSubmit={this.handleSubmit}>
-          <input
-            type="text"
-            placeholder="Procurar Filme"
-            value={newMovie}
-            onChange={this.handleInputChange}
-          />
-
-          <SubmitButton loading={loading}>
-            {loading ? (
-              <FaSpinner color="#FFF" size={14} />
-            ) : (
-              <FaPlus color="#FFF" size={14} />
-            )}
-          </SubmitButton>
-        </Form>
-
-        <List>
-          {movies.map(movie => (
-            <li key={movie.title}>
-              <span>{movie.title}</span>
-              <div>
-                <Link to={`/movie/${encodeURIComponent(movie.title)}`}>
-                  Detalhes
-                </Link>
-                <FaTrash size={14} color="#9966ff" />
-              </div>
-            </li>
-          ))}
-        </List>
-      </Container>
-    );
+  function handleInputChange(e) {
+    setNewMovie(e.target.value);
   }
-}
 
-export default Home;
+  function handleSubmit(e) {
+    e.preventDefault();
+    dispatch(addMovieRequest(newMovie));
+    setNewMovie('');
+  }
+
+  return (
+    <Container>
+      <h1>
+        <FaFilm />
+        Filmes
+      </h1>
+
+      <Form onSubmit={handleSubmit}>
+        <input
+          type="text"
+          placeholder="Procurar Filme"
+          value={newMovie}
+          onChange={handleInputChange}
+        />
+
+        <SubmitButton loading={loading}>
+          {loading ? (
+            <FaSpinner color="#FFF" size={14} />
+          ) : (
+            <FaPlus color="#FFF" size={14} />
+          )}
+        </SubmitButton>
+      </Form>
+
+      <List>
+        {movies.map(movie => (
+          <li key={movie.Title}>
+            <span>{movie.Title}</span>
+            <div>
+              <Link to={`/movie/${encodeURIComponent(movie.Title)}`}>
+                Detalhes
+              </Link>
+              <FaTrash size={14} color="#9966ff" />
+            </div>
+          </li>
+        ))}
+      </List>
+    </Container>
+  );
+}

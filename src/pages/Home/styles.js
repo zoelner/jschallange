@@ -67,9 +67,19 @@ export const List = styled.ul`
       border-top: 1px solid #eee;
     }
 
-    a {
-      color: #9966ff;
-      text-decoration: none;
+    span {
+      color: #999;
+    }
+
+    div {
+      align-items: center;
+      display: flex;
+
+      a {
+        color: #9966ff;
+        text-decoration: none;
+        margin-right: 15px;
+      }
     }
   }
 `;
