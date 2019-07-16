@@ -1,86 +1,80 @@
-import React, { Component } from 'react';
+import React, { useEffect } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
 import { Link } from 'react-router-dom';
 
-import api from '../../services/api';
 import Container from '../../components/Container';
-import { Loading, Header, RatingList, TableDetails } from './styles';
+import { Header, RatingList, TableDetails, Loading } from './styles';
+import { addMovieRequest } from '../../store/modules/movie/actions';
 
-export default class Movie extends Component {
-  state = {
-    movie: {},
-    loading: true,
-  };
+export default function Movie({ match }) {
+  const movieName = decodeURIComponent(match.params.movie);
+  const movie = useSelector(state =>
+    state.movie.data.find(m => m.Title === movieName)
+  );
 
-  async componentDidMount() {
-    const { match } = this.props;
-    const movieName = decodeURIComponent(match.params.movie);
+  const dispatch = useDispatch();
 
-    const movie = await api.get(`?apikey=eebcf44c&t=${movieName}`);
-
-    this.setState({
-      movie: movie.data,
-      loading: false,
-    });
-  }
-
-  render() {
-    const { movie, loading } = this.state;
-
-    if (loading) {
-      return <Loading>Carregando</Loading>;
+  useEffect(() => {
+    if (!movie) {
+      dispatch(addMovieRequest(movieName));
     }
-    return (
-      <Container>
-        <Header>
-          <Link to="/">Voltar aos filmes</Link>
-          <div>
-            <img src={movie.Poster} alt={movie.Title} />
-            <div>
-              <h1>
-                {movie.Title} - {movie.Year}
-              </h1>
-              <p>{movie.Plot}</p>
-            </div>
-          </div>
+  }, []);
 
-          <TableDetails>
-            <table>
-              <tbody>
-                <tr>
-                  <th>Diretor</th>
-                  <td>{movie.Director}</td>
-                </tr>
-                <tr>
-                  <th>Estrelas</th>
-                  <td>{movie.Actors}</td>
-                </tr>
-                <tr>
-                  <th>Lançamento</th>
-                  <td>{movie.Released}</td>
-                </tr>
-                <tr>
-                  <th>Duração</th>
-                  <td>{movie.Runtime}</td>
-                </tr>
-              </tbody>
-            </table>
-          </TableDetails>
-        </Header>
-
-        <RatingList>
-          <h1> Rating </h1>
-          {movie.Ratings.map(rating => (
-            <li key={String(rating.Source)}>
-              <div>
-                <strong>
-                  {rating.Source}
-                  <span>{rating.Value}</span>
-                </strong>
-              </div>
-            </li>
-          ))}
-        </RatingList>
-      </Container>
-    );
+  if (!movie) {
+    return <Loading>Carregando</Loading>;
   }
+
+  return (
+    <Container>
+      <Header>
+        <Link to="/">Voltar aos filmes</Link>
+        <div>
+          <img src={movie.Poster} alt={movie.Title} />
+          <div>
+            <h1>
+              {movie.Title} - {movie.Year}
+            </h1>
+            <p>{movie.Plot}</p>
+          </div>
+        </div>
+
+        <TableDetails>
+          <table>
+            <tbody>
+              <tr>
+                <th>Diretor</th>
+                <td>{movie.Director}</td>
+              </tr>
+              <tr>
+                <th>Estrelas</th>
+                <td>{movie.Actors}</td>
+              </tr>
+              <tr>
+                <th>Lançamento</th>
+                <td>{movie.Released}</td>
+              </tr>
+              <tr>
+                <th>Duração</th>
+                <td>{movie.Runtime}</td>
+              </tr>
+            </tbody>
+          </table>
+        </TableDetails>
+      </Header>
+
+      <RatingList>
+        <h1> Rating </h1>
+        {movie.Ratings.map(rating => (
+          <li key={String(rating.Source)}>
+            <div>
+              <strong>
+                {rating.Source}
+                <span>{rating.Value}</span>
+              </strong>
+            </div>
+          </li>
+        ))}
+      </RatingList>
+    </Container>
+  );
 }
