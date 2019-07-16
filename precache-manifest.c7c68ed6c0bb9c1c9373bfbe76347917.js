@@ -1,6 +1,6 @@
 self.__precacheManifest = (self.__precacheManifest || []).concat([
   {
-    "revision": "17e32f851e7255dd383a81f698479fe6",
+    "revision": "b02b445e955fb3e6c600ee2418201e57",
     "url": "/jschallange/index.html"
   },
   {
