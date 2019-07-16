@@ -18,7 +18,7 @@ export default function Movie({ match }) {
     if (!movie) {
       dispatch(addMovieRequest(movieName));
     }
-  }, []);
+  });
 
   if (!movie) {
     return <Loading>Carregando</Loading>;

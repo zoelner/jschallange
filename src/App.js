@@ -1,5 +1,6 @@
 import React from 'react';
 import { Provider } from 'react-redux';
+import { ToastContainer } from 'react-toastify';
 
 import './config/ReactotronConfig';
 
@@ -10,8 +11,9 @@ import store from './store';
 function App() {
   return (
     <Provider store={store}>
-      <GlobalStyle />
       <Routes />
+      <GlobalStyle />
+      <ToastContainer autoClose={3000} />
     </Provider>
   );
 }

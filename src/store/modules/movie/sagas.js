@@ -1,6 +1,6 @@
 import { call, select, put, all, takeLatest } from 'redux-saga/effects';
 import * as Types from './types';
-
+import { toast } from 'react-toastify';
 import api from '../../../services/api';
 import { addMovieSuccess, addMovieFailed } from './actions';
 
@@ -13,12 +13,13 @@ function* addMovie({ title }) {
   try {
     const response = yield call(api.get, `?apikey=eebcf44c&t=${title}`);
     if (response.data.Error) {
-      console.tron.error('Deu errado');
+      toast.warning('Filme não encontrado!');
+      return;
     }
 
     yield put(addMovieSuccess(response.data));
   } catch (e) {
-    console.tron.error('Falha de conexão');
+    toast.error('Oopps... Alguma coisa deu errado.');
   } finally {
     yield put(addMovieFailed());
   }
