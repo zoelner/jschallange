@@ -1,6 +1,7 @@
 import React, { useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { Link } from 'react-router-dom';
+import PropTypes from 'prop-types';
 
 import Container from '../../components/Container';
 import { Header, RatingList, TableDetails, Loading } from './styles';
@@ -78,3 +79,11 @@ export default function Movie({ match }) {
     </Container>
   );
 }
+
+Movie.propTypes = {
+  match: PropTypes.shape({
+    params: PropTypes.shape({
+      movie: PropTypes.string,
+    }),
+  }).isRequired,
+};
