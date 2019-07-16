@@ -4,9 +4,12 @@ import { FaTrash, FaFilm, FaPlus, FaSpinner } from 'react-icons/fa';
 import { Link } from 'react-router-dom';
 import { Form, SubmitButton, List } from './styles';
 import Container from '../../components/Container';
-import { addMovieRequest } from '../../store/modules/movie/actions';
+import {
+  addMovieRequest,
+  removeMovie,
+} from '../../store/modules/movie/actions';
 
-export default function Home({ movie }) {
+export default function Home() {
   const [newMovie, setNewMovie] = useState('');
   const movies = useSelector(state => state.movie.data);
   const loading = useSelector(state => state.movie.loading);
@@ -55,7 +58,11 @@ export default function Home({ movie }) {
               <Link to={`/movie/${encodeURIComponent(movie.Title)}`}>
                 Detalhes
               </Link>
-              <FaTrash size={14} color="#9966ff" />
+              <FaTrash
+                size={14}
+                color="#9966ff"
+                onClick={() => dispatch(removeMovie(movie.Title))}
+              />
             </div>
           </li>
         ))}
