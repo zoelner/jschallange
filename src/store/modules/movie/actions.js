@@ -14,9 +14,9 @@ export function addMovieSuccess(movie) {
   };
 }
 
-export function addMovieFailed(movie) {
+export function addMovieFinally(movie) {
   return {
-    type: Types.ADD_FAILED,
+    type: Types.ADD_FINALLY,
     movie,
   };
 }

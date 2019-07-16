@@ -20,7 +20,7 @@ export default function movie(state = INITIAL_STATE, action) {
         draft.loading = false;
       });
 
-    case Types.ADD_FAILED:
+    case Types.ADD_FINALLY:
       return produce(state, draft => {
         draft.loading = false;
       });
